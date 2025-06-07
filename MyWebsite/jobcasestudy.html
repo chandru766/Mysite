@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Tracker Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-dark: #3730a3;
+      --primary-light: #818cf8;
+      --background-color: #f8fafc;
+      --text-color: #1e293b;
+      --text-light: #64748b;
+      --white: #ffffff;
+      --gray-light: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --rounded-sm: 0.5rem;
+      --rounded-md: 0.75rem;
+      --rounded-lg: 1rem;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background: var(--white);
+      color: var(--text-color);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo img {
+      height: 40px;
+      transition: var(--transition);
+    }
+
+    .logo img:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary-color);
+    }
+
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: 
+        linear-gradient(rgba(102, 102, 102, 0.7), rgba(0, 0, 0, 0.7)),
+        url('https://images.unsplash.com/photo-1521791136064-7986c2920216') no-repeat center center/cover;
+      height: 80vh;
+      min-height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--white);
+      padding: 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .section {
+      background: var(--white);
+      border-radius: var(--rounded-lg);
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+
+    .section:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-5px);
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .section h2 {
+      color: var(--primary-color);
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--primary-color);
+    }
+
+    .section h5 {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      font-weight: 400;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--rounded-sm);
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+
+    .btn-outline:hover {
+      background: var(--white);
+      color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Project Slider */
+    .project-slider {
+      position: relative;
+      max-width: 100%;
+      margin: 3rem auto 0;
+      text-align: center;
+      border-radius: var(--rounded-lg);
+      overflow: hidden;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 60%; /* Aspect ratio */
+      overflow: hidden;
+      border-radius: var(--rounded-lg);
+    }
+
+    .slider-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #f5f5f5;
+      transition: opacity 0.5s ease;
+      opacity: 0;
+    }
+
+    .slider-image.active {
+      opacity: 1;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--primary-color);
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+
+    .slider-btn:hover {
+      background: var(--primary-color);
+      color: var(--white);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slider-btn.prev {
+      left: 20px;
+    }
+
+    .slider-btn.next {
+      right: 20px;
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .slider-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gray-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .slider-dot.active {
+      background: var(--primary-color);
+      transform: scale(1.2);
+    }
+
+    /* Project Details */
+    .project-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .detail-card {
+      background: var(--background-color);
+      padding: 1.5rem;
+      border-radius: var(--rounded-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .detail-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .detail-card i {
+      font-size: 1.2rem;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: var(--white);
+      border-radius: var(--rounded-lg);
+      margin: 4rem 0;
+    }
+
+    .contact-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .contact-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--white);
+    }
+
+    .contact-section p {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .contact-item {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      padding: 1.5rem 2rem;
+      border-radius: var(--rounded-md);
+      transition: var(--transition);
+      min-width: 250px;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .contact-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .contact-item h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-item p {
+      opacity: 0.9;
+      margin-bottom: 0;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text-color);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: var(--white);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        transition: var(--transition);
+      }
+
+      .nav-links.active {
+        left: 0;
+      }
+
+      .hero {
+        height: 70vh;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .section {
+        padding: 2rem 1.5rem;
+      }
+
+      .slider-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      nav {
+        padding: 1rem;
+      }
+
+      .hero {
+        height: 60vh;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .section {
+        padding: 1.5rem 1rem;
+      }
+
+      .contact-item {
+        min-width: 100%;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 3rem auto;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      background-color: var(--primary-light);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
+      border-radius: 10px;
+    }
+
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      right: -12px;
+      background-color: var(--white);
+      border: 4px solid var(--primary-color);
+      top: 15px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .left {
+      left: 0;
+    }
+
+    .right {
+      left: 50%;
+    }
+
+    .left::before {
+      content: " ";
+      height: 0;
+      position: absolute;
+      top: 22px;
+      width: 0;
+      z-index: 1;
+      right: 30px;
+      border: medium solid var(--primary-light);
+      border-width: 10px 0 10px 10px;
+      border-color: transparent transparent transparent var(--primary-light);
+    }
+
+    .right::before {
+      content: " ";
+      height: 0;
+      position: absolute;
+      top: 22px;
+      width: 0;
+      z-index: 1;
+      left: 30px;
+      border: medium solid var(--primary-light);
+      border-width: 10px 10px 10px 0;
+      border-color: transparent var(--primary-light) transparent transparent;
+    }
+
+    .right::after {
+      left: -12px;
+    }
+
+    .timeline-content {
+      padding: 20px 30px;
+      background-color: var(--white);
+      position: relative;
+      border-radius: var(--rounded-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media screen and (max-width: 768px) {
+      .timeline::after {
+        left: 31px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+
+      .timeline-item::before {
+        left: 60px;
+        border: medium solid var(--primary-light);
+        border-width: 10px 10px 10px 0;
+        border-color: transparent var(--primary-light) transparent transparent;
+      }
+
+      .left::after, .right::after {
+        left: 18px;
+      }
+
+      .right {
+        left: 0%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="logo"><img src="logo4.jpg" alt="Logo" /></a>
+    <ul class="nav-links">
+      <li><a href="mywebsite.html" class="active">Home</a></li>
+      <li><a href="#contact-section">Contact</a></li>
+      <li><a href="mywebsite.html">Project</a></li>
+    </ul>
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content animate">
+      <h1>JobTrack</h1>
+      <p>A comprehensive job application tracking system designed to streamline the job search process and help candidates stay organized.</p>
+      <div class="hero-buttons">
+        <a href="#project" class="btn btn-primary">View Case Study</a>
+        <a href="#contact-section" class="btn btn-outline">Contact Me</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section animate delay-1" id="project">
+      <div class="section-header">
+        <h2>JobTrack</h2>
+        <h5>This case study explores the design and development of a job application tracking system that helps job seekers manage their applications, interviews, and follow-ups in one centralized platform.</h5>
+      </div>
+      
+      <div class="project-details">
+        <div class="detail-card">
+          <h3><i class="fas fa-bullseye"></i> Objective</h3>
+          <p>Create an intuitive platform that helps job seekers track applications, manage deadlines, and prepare for interviews while reducing stress and improving organization.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-users"></i> Target Audience</h3>
+          <p>Job seekers at all levels, from recent graduates to experienced professionals changing careers or looking for new opportunities.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-chart-line"></i> Results</h3>
+          <p>Beta testers reported a 35% reduction in missed follow-ups and a 50% improvement in interview preparation confidence.</p>
+        </div>
+      </div>
+      
+      <a href="https://daisie-6igzc7dt8e.figweb.site" class="btn btn-primary" style="display: inline-flex; margin-top: 2rem;">
+        <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i>View Full Case Study
+      </a>
+
+      <div class="project-slider">
+        <div class="slider-container">
+          <img src="page9.png" alt="Interview Schedule" class="slider-image">
+          <img src="page1.png" alt="JobTrack Dashboard" class="slider-image active">
+          <img src="page2.png" alt="Application Form" class="slider-image">
+          <img src="page3.png" alt="Application Form" class="slider-image">
+          <img src="page4.png" alt="Application Form" class="slider-image">
+          <img src="page5.png" alt="Application Form" class="slider-image">
+          <img src="page6.png" alt="Application Form" class="slider-image">
+          <img src="page7.png" alt="Application Analytics" class="slider-image">
+          <img src="page8.png" alt="Mobile View" class="slider-image">
+        </div>
+        <button class="slider-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="slider-btn next" onclick="changeSlide(1)">&#10095;</button>
+        <div class="slider-dots"></div>
+      </div>
+    </section>
+
+    <section class="section animate delay-2">
+      <div class="section-header">
+        <h2>Design Process</h2>
+        <h5>Our user-centered approach focused on reducing job search anxiety through organization and proactive features.</h5>
+      </div>
+      
+      <div class="project-details">
+        <div class="detail-card">
+          <h3><i class="fas fa-search"></i> Research</h3>
+          <p>Interviewed 30+ job seekers to identify pain points in the application process and common organizational challenges.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-pencil-ruler"></i> Wireframing</h3>
+          <p>Created low-fidelity prototypes focusing on quick data entry and at-a-glance status information.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-palette"></i> UI Design</h3>
+          <p>Developed a clean, professional interface with visual indicators for application status and priority.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-user-check"></i> Testing</h3>
+          <p>Conducted usability tests with real users to refine the workflow and ensure intuitive navigation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section animate delay-3">
+      <div class="section-header">
+        <h2>Key Features</h2>
+        <h5>Strategic design decisions that enhanced user experience and reduced job search stress.</h5>
+      </div>
+      
+      <div class="project-details">
+        <div class="detail-card">
+          <h3><i class="fas fa-columns"></i> Dashboard Overview</h3>
+          <p>Visual summary of application status, upcoming interviews, and pending follow-ups at a glance.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-bell"></i> Reminder System</h3>
+          <p>Automated reminders for follow-ups, thank-you notes, and interview preparation tasks.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-chart-bar"></i> Progress Analytics</h3>
+          <p>Track application response rates, interview conversion, and identify areas for improvement.</p>
+        </div>
+        <div class="detail-card">
+          <h3><i class="fas fa-file-alt"></i> Resume & Cover Letter Tracking</h3>
+          <p>Version control for application documents tailored to specific job postings.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Development Timeline</h2>
+        <h5>The iterative process of designing and refining JobTrack Pro</h5>
+      </div>
+      
+      <div class="timeline">
+        <div class="timeline-item left animate">
+          <div class="timeline-content">
+            <h3>Research Phase</h3>
+            <p>Conducted user interviews and competitive analysis to identify key user needs and market gaps.</p>
+          </div>
+        </div>
+        <div class="timeline-item right animate delay-1">
+          <div class="timeline-content">
+            <h3>Wireframing</h3>
+            <p>Created low-fidelity prototypes and conducted initial usability testing to validate core concepts.</p>
+          </div>
+        </div>
+        <div class="timeline-item left animate delay-2">
+          <div class="timeline-content">
+            <h3>UI Design</h3>
+            <p>Developed high-fidelity mockups with a focus on accessibility and mobile responsiveness.</p>
+          </div>
+        </div>
+        <div class="timeline-item right animate delay-3">
+          <div class="timeline-content">
+            <h3>Beta Testing</h3>
+            <p>Launched beta version with 50 users, collected feedback, and implemented improvements.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="contact-section" id="contact-section">
+    <h2 class="animate">Get In <span>Touch</span></h2>
+    <p class="animate delay-1">Interested in learning more about this project or discussing potential opportunities? I'd love to connect.</p>
+    
+    <div class="contact-details">
+      <div class="contact-item animate delay-1">
+        <div class="contact-icon">
+          <i class="fab fa-linkedin-in"></i>
+        </div>
+        <h3>LinkedIn</h3>
+        <p>Chandrasekar L</p>
+        <a href="https://www.linkedin.com/in/chandrasekar-l-02560133b/" target="_blank" class="btn btn-outline" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">
+          Connect
+        </a>
+      </div>
+      
+      <div class="contact-item animate delay-2">
+        <div class="contact-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <h3>Email</h3>
+        <p>Chandrasekarlsekar11@gmail.com</p>
+        <a href="mailto:Chandrasekarlsekar11@gmail.com" class="btn btn-outline" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">
+          Send Email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/chandrasekar-l-02560133b/" target="_blank" class="social-link">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://dribbble.com/" target="_blank" class="social-link">
+          <i class="fab fa-dribbble"></i>
+        </a>
+        <a href="https://www.behance.net/" target="_blank" class="social-link">
+          <i class="fab fa-behance"></i>
+        </a>
+        <a href="https://github.com/" target="_blank" class="social-link">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <p class="copyright">&copy; 2025 Chandrasekar L. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      menuToggle.innerHTML = navLinks.classList.contains('active') ? 
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Image slider functionality
+    const images = document.querySelectorAll('.slider-image');
+    const dotsContainer = document.querySelector('.slider-dots');
+    let currentSlide = 0;
+    
+    // Create dots
+    images.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('slider-dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+    
+    function changeSlide(direction) {
+      const newSlide = (currentSlide + direction + images.length) % images.length;
+      goToSlide(newSlide);
+    }
+    
+    function goToSlide(index) {
+      images[currentSlide].classList.remove('active');
+      document.querySelectorAll('.slider-dot')[currentSlide].classList.remove('active');
+      
+      currentSlide = index;
+      
+      images[currentSlide].classList.add('active');
+      document.querySelectorAll('.slider-dot')[currentSlide].classList.add('active');
+    }
+    
+    // Auto-advance slides (optional)
+    let slideInterval = setInterval(() => changeSlide(1), 5000);
+    
+    // Pause on hover
+    const slider = document.querySelector('.project-slider');
+    slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+    slider.addEventListener('mouseleave', () => {
+      slideInterval = setInterval(() => changeSlide(1), 5000);
+    });
+    
+    // Animation on scroll
+    const animateElements = document.querySelectorAll('.animate');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    animateElements.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

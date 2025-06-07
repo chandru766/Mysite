@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed! | TravelEase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --primary-dark: #2667cc;
+            --success: #4cc9f0;
+            --text: #2b2d42;
+            --text-light: #8d99ae;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --sky-start: #a1c4fd;
+            --sky-end: #c2e9fb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--sky-start), var(--sky-end));
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .sky-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(5px);
+            opacity: 0;
+            animation: cloudFloat linear infinite;
+        }
+        
+        .airplane {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233a86ff"><path d="M22 16.21v-1.895L14 8V4a2 2 0 0 0-4 0v4l-8 6.315v1.895l8-2.526V18l-2 2v2l3.5-1 3.5 1v-2l-2-2v-4.316l8 2.526z"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+            opacity: 0;
+            animation: airplaneFly linear;
+            z-index: 1;
+        }
+        
+        .success-container {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            margin: 2rem auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: containerPopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.25rem;
+            position: relative;
+        }
+        
+        .circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(76, 201, 240, 0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+        }
+        
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: var(--success);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: var(--success);
+            fill: none;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        
+        h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--success);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.8s forwards;
+        }
+        
+        .confirmation-text {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 1s forwards;
+        }
+        
+        .confirmation-number {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
+        }
+        
+        .trip-details {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 1.4s forwards;
+        }
+        
+        .trip-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .trip-date {
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .price-total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f1f3f5;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-container {
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 1.6s forwards;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.85rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            margin-top: 0.75rem;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(58, 134, 255, 0.1);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            opacity: 0;
+            z-index: 3;
+        }
+        
+        /* Keyframes */
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes popIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes containerPopIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes cloudFloat {
+            0% {
+                transform: translateX(100vw) translateY(var(--cloud-y)) scale(var(--cloud-size));
+                opacity: 0;
+            }
+            10% {
+                opacity: var(--cloud-opacity);
+            }
+            90% {
+                opacity: var(--cloud-opacity);
+            }
+            100% {
+                transform: translateX(-200px) translateY(var(--cloud-y)) scale(var(--cloud-size));
+                opacity: 0;
+            }
+        }
+        
+        @keyframes airplaneFly {
+            0% {
+                transform: translateX(-200px) translateY(var(--plane-y)) rotate(10deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) translateY(calc(var(--plane-y) + 50px)) rotate(0deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .success-container {
+                padding: 3rem 2rem;
+            }
+            
+            .success-icon {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .checkmark {
+                width: 60px;
+                height: 60px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .confirmation-text {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .confirmation-number {
+                padding: 0.75rem 1.5rem;
+                margin-bottom: 2rem;
+                font-size: 0.9rem;
+            }
+            
+            .trip-details {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .trip-title {
+                font-size: 1.25rem;
+            }
+            
+            .price-total {
+                font-size: 1.25rem;
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+            
+            .btn {
+                padding: 1rem;
+                margin-top: 1rem;
+                font-size: 1rem;
+            }
+            
+            .airplane {
+                width: 120px;
+                height: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .success-container {
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+            
+            .success-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+            
+            .checkmark {
+                width: 45px;
+                height: 45px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .confirmation-text {
+                font-size: 0.95rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .confirmation-number {
+                font-size: 0.8rem;
+                padding: 0.5rem 1rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .trip-details {
+                padding: 1rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .trip-title {
+                font-size: 1rem;
+            }
+            
+            .trip-date {
+                font-size: 0.8rem;
+            }
+            
+            .price-total {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+            
+            .airplane {
+                width: 60px;
+                height: 30px;
+            }
+        }
+        
+        @media (max-height: 700px) and (orientation: landscape) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .success-container {
+                margin: 1rem auto;
+                padding: 1.5rem 1rem;
+            }
+            
+            .success-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 0.75rem;
+            }
+            
+            .checkmark {
+                width: 40px;
+                height: 40px;
+            }
+            
+            h1 {
+                font-size: 1.25rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .confirmation-text {
+                font-size: 0.85rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .confirmation-number {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .trip-details {
+                padding: 0.75rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .trip-title {
+                font-size: 0.9rem;
+            }
+            
+            .trip-date {
+                font-size: 0.75rem;
+            }
+            
+            .price-total {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 0.6rem;
+                font-size: 0.8rem;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sky-animation" id="skyAnimation"></div>
+    
+    <div class="success-container">
+        <div class="success-icon">
+            <div class="circle"></div>
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+        </div>
+        
+        <h1>Booking Confirmed!</h1>
+        <p class="confirmation-text">Your trip has been successfully booked. A confirmation has been sent to your email.</p>
+        <div class="confirmation-number">Confirmation #: TRAVEL-5X8H-9K2M</div>
+        
+        <div class="trip-details">
+            <h3 class="trip-title">7-Day Bali Adventure Package</h3>
+            <div class="trip-date">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3.01 4.9 3.01 6L3 20C3 21.1 3.89 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4ZM19 20H5V10H19V20ZM19 8H5V6H19V8ZM9 14H7V12H9V14ZM13 14H11V12H13V14ZM17 14H15V12H17V14ZM9 18H7V16H9V18ZM13 18H11V16H13V18ZM17 18H15V16H17V18Z" fill="#8D99AE"/>
+                </svg>
+                <span>Jun 15 - Jun 22, 2023</span>
+            </div>
+            
+            <div class="price-total">
+                <span>Total Paid</span>
+                <span>$1,245.00</span>
+            </div>
+        </div>
+        
+        <div class="btn-container">
+            <a href="#" class="btn">View Booking Details</a>
+            <a href="destination.html" class="btn btn-outline">Back to Home</a>
+        </div>
+    </div>
+    
+    <script>
+        // Create clouds
+        function createClouds() {
+            const sky = document.getElementById('skyAnimation');
+            const cloudCount = window.innerWidth < 768 ? 5 : 8;
+            
+            for (let i = 0; i < cloudCount; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                
+                // Random cloud properties
+                const size = Math.random() * (window.innerWidth < 480 ? 50 : 100) + (window.innerWidth < 480 ? 30 : 50);
+                const yPos = Math.random() * 80;
+                const opacity = Math.random() * 0.5 + 0.3;
+                const duration = Math.random() * (window.innerWidth < 768 ? 40000 : 60000) + (window.innerWidth < 768 ? 20000 : 30000);
+                const delay = Math.random() * (window.innerWidth < 768 ? 15000 : 30000);
+                
+                cloud.style.setProperty('--cloud-size', `${size / 100}`);
+                cloud.style.setProperty('--cloud-y', `${yPos}%`);
+                cloud.style.setProperty('--cloud-opacity', opacity);
+                cloud.style.width = `${size}px`;
+                cloud.style.height = `${size * 0.6}px`;
+                cloud.style.animationDuration = `${duration}ms`;
+                cloud.style.animationDelay = `${delay}ms`;
+                
+                sky.appendChild(cloud);
+            }
+        }
+        
+        // Create airplane
+        function createAirplane() {
+            const sky = document.getElementById('skyAnimation');
+            const airplane = document.createElement('div');
+            airplane.className = 'airplane';
+            
+            // Random airplane properties
+            const yPos = Math.random() * 30 + 10;
+            const duration = window.innerWidth < 768 ? 15000 : 20000;
+            const delay = Math.random() * 5000;
+            
+            airplane.style.setProperty('--plane-y', `${yPos}%`);
+            airplane.style.animationDuration = `${duration}ms`;
+            airplane.style.animationDelay = `${delay}ms`;
+            
+            sky.appendChild(airplane);
+            
+            // Create continuous airplanes
+            const airplaneInterval = setInterval(() => {
+                const newAirplane = airplane.cloneNode();
+                const newYPos = Math.random() * 30 + 10;
+                const newDelay = Math.random() * 3000;
+                
+                newAirplane.style.setProperty('--plane-y', `${newYPos}%`);
+                newAirplane.style.animationDelay = `${newDelay}ms`;
+                
+                sky.appendChild(newAirplane);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    if (newAirplane.parentNode) {
+                        newAirplane.remove();
+                    }
+                }, duration + newDelay);
+            }, window.innerWidth < 768 ? 10000 : 8000);
+            
+            // Cleanup on page hide
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    clearInterval(airplaneInterval);
+                }
+            });
+        }
+        
+        // Create confetti effect
+        function createConfetti() {
+            const container = document.querySelector('.success-container');
+            const colors = ['#4cc9f0', '#3a86ff', '#7209b7', '#f72585', '#4895ef'];
+            const confettiCount = window.innerWidth < 768 ? 50 : 80;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                confetti.style.width = (window.innerWidth < 480 ? 6 : 8) + 'px';
+                confetti.style.height = (window.innerWidth < 480 ? 6 : 8) + 'px';
+                container.appendChild(confetti);
+                
+                animateConfetti(confetti);
+            }
+        }
+        
+        function animateConfetti(element) {
+            const startX = parseFloat(element.style.left);
+            const startY = -10;
+            const endY = Math.random() * 100 + 100;
+            const rotation = Math.random() * 720 - 360;
+            const duration = Math.random() * 3000 + 2000;
+            const delay = Math.random() * 500;
+            
+            // Set initial position
+            element.style.left = startX + '%';
+            element.style.top = startY + 'px';
+            
+            // Animate
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transition = `all ${duration/1000}s cubic-bezier(0.1, 0.8, 0.3, 1)`;
+                element.style.transform = `translate(${Math.random() * 40 - 20}px, ${endY}px) rotate(${rotation}deg)`;
+                
+                // Remove after animation
+                setTimeout(() => {
+                    element.style.opacity = '0';
+                    setTimeout(() => {
+                        if (element.parentNode) {
+                            element.remove();
+                        }
+                    }, 500);
+                }, duration);
+            }, delay);
+        }
+        
+
+    </script>
+</body>
+</html>

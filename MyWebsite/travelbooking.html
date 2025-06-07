@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBook - Explore the World</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            margin: 0 10px;
+            color: var(--dark-color) !important;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+            margin-top: -80px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .search-tabs .nav-link {
+            color: #666 !important;
+            font-weight: 500;
+            border: none !important;
+            padding: 10px 20px;
+        }
+        
+        .search-tabs .nav-link.active {
+            color: var(--primary-color) !important;
+            background: transparent !important;
+            border-bottom: 3px solid var(--primary-color) !important;
+        }
+        
+        .form-control, .form-select {
+            height: 50px;
+            border-radius: 8px;
+        }
+        
+        .destination-card {
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .destination-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .destination-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .package-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            border: none;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .package-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .package-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .package-rating {
+            color: #FFC107;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin: 15px;
+        }
+        
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        
+        .newsletter-section {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .newsletter-input {
+            height: 50px;
+            border-radius: 8px 0 0 8px !important;
+            border: none;
+        }
+        
+        .newsletter-btn {
+            height: 50px;
+            border-radius: 0 8px 8px 0 !important;
+            background-color: var(--dark-color);
+            border: none;
+            font-weight: 500;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #1a252f;
+        }
+        
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            color: #bbb;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-plane"></i> WanderEase</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="destination.html">Destinations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="packages.html">Packages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <div class="ms-lg-3 mt-3 mt-lg-0">
+                    <a href="travelprofile.html" class="btn btn-primary"><i class="fas fa-user me-2"></i> Profile</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">Discover Your Perfect Getaway</h1>
+            <p class="hero-subtitle">Explore the world's most beautiful destinations with our expertly crafted travel experiences. Adventure awaits!</p>
+            <a href="packages.html"class="btn btn-primary btn-lg"><i class="fas fa-search me-2"></i> Explore Now</a>
+        </div>
+    </section>
+
+    <!-- Search Box -->
+    <div class="container">
+        <div class="search-box">
+            <ul class="nav nav-tabs search-tabs mb-4" id="searchTab">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#flights">Flights</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#hotels">Hotels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#packages">Packages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#rentals">Rentals</a>
+                </li>
+            </ul>
+            
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="flights">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">From</label>
+                                <select class="form-select">
+                                    <option selected>Select departure city</option>
+                                    <option>New York (JFK)</option>
+                                    <option>Los Angeles (LAX)</option>
+                                    <option>London (LHR)</option>
+                                    <option>Paris (CDG)</option>
+                                    <option>Tokyo (NRT)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">To</label>
+                                <select class="form-select">
+                                    <option selected>Select destination city</option>
+                                    <option>Bali (DPS)</option>
+                                    <option>Rome (FCO)</option>
+                                    <option>Barcelona (BCN)</option>
+                                    <option>Dubai (DXB)</option>
+                                    <option>Sydney (SYD)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Departure</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Return</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Travelers</label>
+                                <select class="form-select">
+                                    <option>1 Adult</option>
+                                    <option selected>2 Adults</option>
+                                    <option>3 Adults</option>
+                                    <option>4 Adults</option>
+                                    <option>Family (2+2)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Class</label>
+                                <select class="form-select">
+                                    <option>Economy</option>
+                                    <option selected>Premium Economy</option>
+                                    <option>Business</option>
+                                    <option>First Class</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3 d-flex align-items-end">
+                                <a href="flights.html" class="btn btn-primary w-100"><i class="fas fa-search me-2" ></i> Search Flights</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="hotels">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Destination</label>
+                                <select class="form-select">
+                                    <option selected>Select city or hotel</option>
+                                    <option>New York</option>
+                                    <option>Los Angeles</option>
+                                    <option>London</option>
+                                    <option>Paris</option>
+                                    <option>Tokyo</option>
+                                    <option>Bali</option>
+                                    <option>Dubai</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Check-in Date</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Check-out Date</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Guests</label>
+                                <select class="form-select">
+                                    <option>1 Guest</option>
+                                    <option selected>2 Guests</option>
+                                    <option>3 Guests</option>
+                                    <option>4 Guests</option>
+                                    <option>Family (2+2)</option>
+                                    <option>Group (5+)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Rooms</label>
+                                <select class="form-select">
+                                    <option selected>1 Room</option>
+                                    <option>2 Rooms</option>
+                                    <option>3 Rooms</option>
+                                    <option>4 Rooms</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Room Type</label>
+                                <select class="form-select">
+                                    <option>Standard</option>
+                                    <option selected>Deluxe</option>
+                                    <option>Suite</option>
+                                    <option>Executive</option>
+                                    <option>Presidential</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3 d-flex align-items-end">
+                                <a href="hotel.html" class="btn btn-primary w-100"><i class="fas fa-search me-2"></i> Search Hotels</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="packages">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Destination</label>
+                                <select class="form-select">
+                                    <option selected>Where do you want to go?</option>
+                                    <option>Europe</option>
+                                    <option>Caribbean</option>
+                                    <option>Southeast Asia</option>
+                                    <option>Africa</option>
+                                    <option>South America</option>
+                                    <option>Australia & New Zealand</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Travel Dates</label>
+                                <input type="date" class="form-control" placeholder="Flexible dates">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Duration</label>
+                                <select class="form-select">
+                                    <option>1 Week</option>
+                                    <option selected>2 Weeks</option>
+                                    <option>3 Weeks</option>
+                                    <option>1 Month</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Travelers</label>
+                                <select class="form-select">
+                                    <option>1 Adult</option>
+                                    <option selected>2 Adults</option>
+                                    <option>Family (2+2)</option>
+                                    <option>Group (5+)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Budget</label>
+                                <select class="form-select">
+                                    <option>Economy ($500-$1500)</option>
+                                    <option selected>Standard ($1500-$3000)</option>
+                                    <option>Premium ($3000-$5000)</option>
+                                    <option>Luxury ($5000+)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3 d-flex align-items-end">
+                                <a href="packages.html" class="btn btn-primary w-100"><i class="fas fa-search me-2"></i> Find Packages</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="rentals">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Location</label>
+                                <select class="form-select">
+                                    <option selected>Select city or area</option>
+                                    <option>Miami Beach</option>
+                                    <option>Malibu</option>
+                                    <option>Lake Tahoe</option>
+                                    <option>Aspen</option>
+                                    <option>Paris Downtown</option>
+                                    <option>Tuscany Countryside</option>
+                                    <option>Bali Villa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Check-in Date</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Check-out Date</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Guests</label>
+                                <select class="form-select">
+                                    <option>1 Guest</option>
+                                    <option selected>2 Guests</option>
+                                    <option>4 Guests</option>
+                                    <option>6 Guests</option>
+                                    <option>8 Guests</option>
+                                    <option>10+ Guests</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Property Type</label>
+                                <select class="form-select">
+                                    <option selected>Any Type</option>
+                                    <option>Apartment</option>
+                                    <option>Villa</option>
+                                    <option>Cabin</option>
+                                    <option>Beach House</option>
+                                    <option>Mountain Chalet</option>
+                                    <option>City Loft</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Amenities</label>
+                                <select class="form-select">
+                                    <option selected>Essential</option>
+                                    <option>Pool</option>
+                                    <option>Beachfront</option>
+                                    <option>Pet Friendly</option>
+                                    <option>Hot Tub</option>
+                                    <option>Luxury</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3 d-flex align-items-end">
+                                <a href="rentals.html" class="btn btn-primary w-100"><i class="fas fa-search me-2"></i> Find Rentals</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Destinations -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Popular Destinations</h2>
+            <p class="text-muted mb-5">Explore our most popular travel destinations</p>
+            
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card destination-card">
+                        <img src="https://images.unsplash.com/photo-1518391846015-55a9cc003b25?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top destination-img" alt="Bali">
+                        <div class="destination-badge">Trending</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Bali, Indonesia</h5>
+                            <p class="card-text text-muted">Starting from $899</p>
+                            <a href="balibooking.html" class="btn btn-sm btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card destination-card">
+                        <img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top destination-img" alt="Paris">
+                        <div class="destination-badge">Popular</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Paris, France</h5>
+                            <p class="card-text text-muted">Starting from $1299</p>
+                            <a href="paris.html" class="btn btn-sm btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card destination-card">
+                        <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top destination-img" alt="Tokyo">
+                        <div class="destination-badge">New</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Tokyo, Japan</h5>
+                            <p class="card-text text-muted">Starting from $1599</p>
+                            <a href="tokyo.html" class="btn btn-sm btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card destination-card">
+                        <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top destination-img" alt="New York">
+                        <div class="destination-badge">Hot Deal</div>
+                        <div class="card-body">
+                            <h5 class="card-title">New York, USA</h5>
+                            <p class="card-text text-muted">Starting from $799</p>
+                            <a href="#" class="btn btn-sm btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-outline-primary">View All Destinations</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Packages -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Featured Packages</h2>
+            <p class="text-muted mb-5">Handpicked travel packages for your perfect vacation</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card package-card">
+                        <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top package-img" alt="European Tour">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-success">7 Days</span>
+                                <span class="package-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-muted ms-1">4.5</span>
+                                </span>
+                            </div>
+                            <h5 class="card-title">European Highlights Tour</h5>
+                            <p class="card-text text-muted">Visit 5 countries in one amazing trip</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="package-price">$2,499</span>
+                                <a href="booking.html" class="btn btn-sm btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card package-card">
+                        <img src="https://images.unsplash.com/photo-1503917988258-f87a78e3c995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top package-img" alt="Caribbean Cruise">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-success">10 Days</span>
+                                <span class="package-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="text-muted ms-1">4.0</span>
+                                </span>
+                            </div>
+                            <h5 class="card-title">Caribbean Paradise Cruise</h5>
+                            <p class="card-text text-muted">Luxury cruise with 5 island stops</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="package-price">$3,199</span>
+                                <a href="booking.html" class="btn btn-sm btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card package-card">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top package-img" alt="Safari Adventure">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-success">14 Days</span>
+                                <span class="package-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-muted ms-1">5.0</span>
+                                </span>
+                            </div>
+                            <h5 class="card-title">African Safari Adventure</h5>
+                            <p class="card-text text-muted">Wildlife experience of a lifetime</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="package-price">$4,899</span>
+                                <a href="booking.html" class="btn btn-sm btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">What Our Travelers Say</h2>
+            <p class="text-muted mb-5">Hear from our happy customers</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="testimonial-img" alt="Sarah J.">
+                        <h5>Sarah Johnson</h5>
+                        <p class="text-muted">New York, USA</p>
+                        <div class="package-rating mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-0">"The European tour was absolutely amazing! Everything was perfectly organized, and we got to see so many beautiful places. Will definitely book with TravelBook again!"</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" class="testimonial-img" alt="Michael T.">
+                        <h5>Michael Thompson</h5>
+                        <p class="text-muted">London, UK</p>
+                        <div class="package-rating mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="mb-0">"The safari experience was beyond my expectations. The guides were knowledgeable, and we saw the Big Five! TravelBook made everything so easy from start to finish."</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://randomuser.me/api/portraits/women/63.jpg" class="testimonial-img" alt="Emma L.">
+                        <h5>Emma Lee</h5>
+                        <p class="text-muted">Sydney, Australia</p>
+                        <div class="package-rating mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-0">"Our Bali vacation was perfect thanks to TravelBook. The resort was stunning, and all our transfers were seamless. Can't wait to plan our next trip with them!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h3 class="text-white mb-3">Subscribe to Our Newsletter</h3>
+                    <p class="text-white-50">Get the latest travel deals, tips, and news delivered straight to your inbox.</p>
+                </div>
+                <div class="col-lg-6">
+                    <form class="d-flex">
+                        <input type="email" class="form-control newsletter-input" placeholder="Your email address">
+                        <button type="submit" class="btn newsletter-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-title"><i class="fas fa-plane me-2"></i> WanderEase</h5>
+                    <p class="text-white-80 mt-3">Making travel dreams come true since 2010. We specialize in creating unforgettable experiences around the globe.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="#">Home</a>
+                        <a href="#">Destinations</a>
+                        <a href="#">Packages</a>
+                        <a href="#">Special Offers</a>
+                        <a href="#">Blog</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-title">Support</h5>
+                    <div class="footer-links">
+                        <a href="#">Contact Us</a>
+                        <a href="#">FAQs</a>
+                        <a href="#">Booking Guide</a>
+                        <a href="#">Cancellation Policy</a>
+                        <a href="#">Privacy Policy</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-title">Contact Info</h5>
+                    <div class="footer-links">
+                        <p><i class="fas fa-map-marker-alt me-2"></i> 123 Travel St, New York, NY 10001</p>
+                        <p><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@travelbook.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright text-center">
+                <p class="mb-0">&copy; 2023 WanderEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+            
+            // Search form submission
+            document.querySelector('#searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Search functionality would be implemented here!');
+            });
+            
+            // Newsletter form submission
+            document.querySelector('.newsletter-section form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                alert(`Thank you for subscribing with ${email}! You'll receive our newsletter soon.`);
+                this.reset();
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

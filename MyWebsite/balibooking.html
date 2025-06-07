@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bali, Indonesia | TravelBook</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+        
+        .navbar {
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            margin: 0 10px;
+            color: var(--dark-color) !important;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .destination-hero {
+            height: 500px;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('https://images.unsplash.com/photo-1518391846015-55a9cc003b25?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            color: white;
+            padding: 50px 0;
+            margin-bottom: 50px;
+        }
+        
+        .destination-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .destination-location {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .destination-location i {
+            margin-right: 8px;
+        }
+        
+        .destination-rating {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .destination-rating-stars {
+            color: #FFC107;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .overview-card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: none;
+        }
+        
+        .overview-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .gallery-item {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .package-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            margin-bottom: 30px;
+            border: none;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .package-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .package-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .package-rating {
+            color: #FFC107;
+        }
+        
+        .booking-card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .price-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .price-period {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+        .breadcrumb-item a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: #ccc;
+        }
+        
+        .breadcrumb-item+.breadcrumb-item::before {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-plane"></i> WanderEase</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="travelbooking.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="destination.html">Destinations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="packages.html">Packages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Destination Hero -->
+    <section class="destination-hero">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Destinations</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bali</li>
+                </ol>
+            </nav>
+            <h1 class="destination-title">Bali, Indonesia</h1>
+            <div class="destination-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Island in Indonesia</span>
+            </div>
+            <div class="destination-rating">
+                <div class="destination-rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div>
+                    <div>4.5 (1,238 reviews)</div>
+                    <small class="text-white-50">Popular with travelers worldwide</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destination Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Overview -->
+                <section class="mb-5">
+                    <h2 class="section-title">Overview</h2>
+                    <p>Bali is a living postcard, an Indonesian paradise that feels like a fantasy. The "Island of the Gods" boasts picturesque beaches, volcanic hillsides, lush rice terraces, and enchanting temples. Bali's rich culture manifests in its arts, dance, music, and food, creating a destination that delights all the senses.</p>
+                    <p>From the spiritual heart of Ubud to the surf beaches of Canggu and the luxury resorts of Nusa Dua, Bali offers diverse experiences for every traveler. The island's warm hospitality and stunning natural beauty make it one of the world's most beloved tropical destinations.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="overview-card text-center">
+                                <div class="overview-icon">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                                <h5>Best Time to Visit</h5>
+                                <p class="text-muted">April to October (Dry season)</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="overview-card text-center">
+                                <div class="overview-icon">
+                                    <i class="fas fa-language"></i>
+                                </div>
+                                <h5>Language</h5>
+                                <p class="text-muted">Balinese, Indonesian (English widely spoken)</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="overview-card text-center">
+                                <div class="overview-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <h5>Currency</h5>
+                                <p class="text-muted">Indonesian Rupiah (IDR)</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Highlights -->
+                <section class="mb-5">
+                    <h2 class="section-title">Top Highlights</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-umbrella-beach text-primary fs-3 me-3"></i>
+                                </div>
+                                <div>
+                                    <h5>Pristine Beaches</h5>
+                                    <p class="text-muted">From the famous Kuta Beach to hidden gems like Padang Padang, Bali's coastline offers white sand, surf spots, and breathtaking sunsets.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-archway text-primary fs-3 me-3"></i>
+                                </div>
+                                <div>
+                                    <h5>Ancient Temples</h5>
+                                    <p class="text-muted">Discover spiritual sites like Uluwatu Temple perched on cliffs and the iconic Tanah Lot, a sea temple that appears to float on water.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-leaf text-primary fs-3 me-3"></i>
+                                </div>
+                                <div>
+                                    <h5>Tegalalang Rice Terraces</h5>
+                                    <p class="text-muted">Walk through the stunning emerald-green rice paddies that cascade down the hillsides in Ubud's countryside.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-utensils text-primary fs-3 me-3"></i>
+                                </div>
+                                <div>
+                                    <h5>Balinese Cuisine</h5>
+                                    <p class="text-muted">Savor local dishes like Babi Guling (suckling pig), Bebek Betutu (slow-cooked duck), and the famous Luwak coffee.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Gallery -->
+                <section class="mb-5">
+                    <h2 class="section-title">Gallery</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="gallery-item">
+                                <img src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ubud Rice Terraces">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="gallery-item">
+                                <img src="https://images.unsplash.com/photo-1564429093195-9c8d1f1e0e5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tanah Lot Temple">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="gallery-item">
+                                <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Bali Beach">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="gallery-item">
+                                <img src="https://images.unsplash.com/photo-1518544866330-95b5af6d8b9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Balinese Culture">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="gallery-item">
+                                <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Bali Waterfall">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Packages -->
+                <section class="mb-5">
+                    <h2 class="section-title">Popular Packages</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card package-card">
+                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top package-img" alt="Bali Luxury Escape">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="badge bg-success">7 Days</span>
+                                        <span class="package-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <span class="text-muted ms-1">4.5</span>
+                                        </span>
+                                    </div>
+                                    <h5 class="card-title">Bali Luxury Escape</h5>
+                                    <p class="card-text text-muted">5-star resorts, private tours, and exclusive experiences</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="package-price">$2,199</span>
+                                        <a href="#" class="btn btn-sm btn-primary">View Package</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card package-card">
+                                <img src="https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top package-img" alt="Bali Adventure Tour">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="badge bg-success">10 Days</span>
+                                        <span class="package-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span class="text-muted ms-1">4.0</span>
+                                        </span>
+                                    </div>
+                                    <h5 class="card-title">Bali Adventure Tour</h5>
+                                    <p class="card-text text-muted">Surfing, hiking, and cultural immersion</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="package-price">$1,599</span>
+                                        <a href="#" class="btn btn-sm btn-primary">View Package</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-outline-primary">View All Bali Packages</a>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Booking Sidebar -->
+            <div class="col-lg-4">
+                <div class="booking-card">
+                    <h4 class="mb-4">Plan Your Trip</h4>
+                    <div class="price-display mb-3">
+                        $899 <span class="price-period">per person</span>
+                    </div>
+                    <p class="text-muted mb-4">Starting price for 7-day package including flights and 4-star hotel</p>
+                    
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Travel Dates</label>
+                            <input type="text" class="form-control" id="dateRange" placeholder="Select dates">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Travelers</label>
+                            <select class="form-select">
+                                <option>1 Adult</option>
+                                <option selected>2 Adults</option>
+                                <option>3 Adults</option>
+                                <option>4 Adults</option>
+                                <option>Family (2+2)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Package Type</label>
+                            <select class="form-select">
+                                <option>Economy</option>
+                                <option selected>Standard</option>
+                                <option>Premium</option>
+                                <option>Luxury</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-calendar-check me-2"></i> Check Availability
+                        </button>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="mb-3">Why Book With Us?</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Best Price Guarantee</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> 24/7 Customer Support</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Flexible Cancellation</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Local Expert Guides</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-4"><i class="fas fa-plane me-2"></i> WanderEase</h5>
+                    <p class="text-muted">Making travel dreams come true since 2010. We specialize in creating unforgettable experiences around the globe.</p>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-muted">Home</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">Destinations</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">Packages</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">Special Offers</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-4">Support</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-muted">Contact Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">FAQs</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">Booking Guide</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">Cancellation Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-4">Contact Info</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 Travel St, New York</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@travelbook.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5 pt-4 border-top border-secondary">
+                <p class="text-muted mb-0">&copy; 2023 WanderEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Date Range Picker -->
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize date range picker
+            $('#dateRange').daterangepicker({
+                opens: 'left',
+                minDate: new Date(),
+                locale: {
+                    format: 'MMM DD, YYYY'
+                }
+            });
+            
+            // Gallery image click handler
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // In a real app, this would open a lightbox/modal
+                    alert('Gallery image clicked! This would open a larger view of the image.');
+                });
+            });
+            
+            // Package card click handler
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('btn')) {
+                        // Navigate to package details page
+                        window.location.href = 'package-details.html';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
