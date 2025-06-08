@@ -1,2 +1,0 @@
-# Mysite
-This a portfolio
